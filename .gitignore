@@ -1,0 +1,31 @@
+# ========================
+# Data & Artifacts
+# ========================
+data\raw\
+data\processed\
+outputs\
+checkpoints\
+*.ckpt
+*.pth
+*.pt
+
+# ========================
+# Python
+# ========================
+__pycache__\
+*.pyc
+.venv\
+.env
+
+# ========================
+# Jupyter
+# ========================
+.ipynb_checkpoints\
+
+# ========================
+# OS / Editors
+# ========================
+.DS_Store
+Thumbs.db
+.vscode\
+.idea\
