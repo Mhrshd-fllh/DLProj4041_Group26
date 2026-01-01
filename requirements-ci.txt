@@ -1,0 +1,8 @@
+# Minimal deps for CI (no torch to avoid huge downloads)
+numpy
+pandas
+scikit-learn
+matplotlib
+pyyaml
+tqdm
+timm
