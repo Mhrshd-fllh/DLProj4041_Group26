@@ -1,11 +1,11 @@
 from src.utils.run_logger import (
+    copy_config,
     init_run,
     make_run_id,
     snapshot_pip_freeze,
-    write_run_meta,
-    copy_config,
-    write_metrics_dummy,
     write_decision_note,
+    write_metrics_dummy,
+    write_run_meta,
 )
 
 CONFIG_PATH = "configs/train.yaml"

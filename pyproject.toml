@@ -1,0 +1,29 @@
+[tool.black]
+line-length = 100
+target-version = ["py310"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+fix = true
+
+[tool.ruff.lint]
+# E/F: basic errors, I: import sorting, B: bugbear, UP: pyupgrade
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["E501"]  # formatter handles line length
+
+exclude = [
+  ".venv",
+  "outputs",
+  "data",
+  "__pycache__",
+  ".git",
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["src"]
+combine-as-imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
