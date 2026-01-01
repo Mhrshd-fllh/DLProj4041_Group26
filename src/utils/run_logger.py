@@ -6,7 +6,7 @@ import subprocess
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Dict, Any, Optional
+from typing import Any
 
 
 @dataclass
@@ -38,8 +38,8 @@ def snapshot_pip_freeze(out_path: Path) -> None:
     out_path.write_text(result.stdout, encoding="utf-8")
 
 
-def write_run_meta(out_path: Path, extra: Optional[Dict[str, Any]] = None) -> None:
-    meta: Dict[str, Any] = {
+def write_run_meta(out_path: Path, extra: dict[str, Any] | None = None) -> None:
+    meta: dict[str, Any] = {
         "timestamp_utc": utc_now_iso(),
         "python_version": platform.python_version(),
         "platform": platform.platform(),
