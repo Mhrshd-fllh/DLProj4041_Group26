@@ -1,0 +1,22 @@
+﻿# Minimal config scaffold (will expand in later steps)
+
+run:
+  seed: 42
+  output_dir: outputs
+  run_name_prefix: run
+
+data:
+  splits:
+    train_csv: data/splits/train.csv
+    val_csv: data/splits/val.csv
+    test_csv: data/splits/test.csv
+
+model:
+  name: resnet18
+  pretrained: true
+  num_classes: 5
+
+train:
+  epochs: 1
+  batch_size: 8
+  lr: 0.0003
