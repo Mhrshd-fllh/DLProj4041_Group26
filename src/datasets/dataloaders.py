@@ -3,8 +3,10 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 
+import yaml
 from torch.utils.data import DataLoader
 
+from src.augmentations.policy import build_train_augment
 from src.datasets.mammo_dataset import DatasetConfig, MammoGradesDataset
 
 
@@ -26,6 +28,7 @@ def build_datasets(
     normalize_type: str,
     mean: float,
     std: float,
+    augment_cfg_path: str = "configs/augment.yaml",
 ) -> tuple[MammoGradesDataset, MammoGradesDataset, MammoGradesDataset]:
     base = dict(
         raw_dir=Path(raw_dir),
@@ -37,9 +40,23 @@ def build_datasets(
         std=std,
     )
 
-    train_ds = MammoGradesDataset(DatasetConfig(csv_path=Path(train_csv), **base))
-    val_ds = MammoGradesDataset(DatasetConfig(csv_path=Path(val_csv), **base))
-    test_ds = MammoGradesDataset(DatasetConfig(csv_path=Path(test_csv), **base))
+    cfg_path = Path(augment_cfg_path)
+    if cfg_path.exists():
+        with cfg_path.open("r", encoding="utf-8") as f:
+            aug_cfg = yaml.safe_load(f) or {}
+    else:
+        aug_cfg = {"augment": {"enabled": False}}
+
+    train_aug = build_train_augment(aug_cfg)
+    train_ds = MammoGradesDataset(
+        DatasetConfig(csv_path=Path(train_csv), split="train", augment=train_aug, **base)
+    )
+    val_ds = MammoGradesDataset(
+        DatasetConfig(csv_path=Path(val_csv), split="val", augment=None, **base)
+    )
+    test_ds = MammoGradesDataset(
+        DatasetConfig(csv_path=Path(test_csv), split="test", augment=None, **base)
+    )
     return train_ds, val_ds, test_ds
 
 

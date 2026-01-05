@@ -1,0 +1,18 @@
+augment:
+  enabled: true
+
+  # geometry (conservative)
+  hflip_p: 0.5
+
+  rotate_enabled: true
+  rotate_degrees: 5
+  rotate_p: 0.3
+
+  # photometric (mild, grayscale-safe)
+  brightness: 0.05
+  contrast: 0.05
+
+  gamma_enabled: true
+  gamma_min: 0.95
+  gamma_max: 1.05
+  gamma_p: 0.3
