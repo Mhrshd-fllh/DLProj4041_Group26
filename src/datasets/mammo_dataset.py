@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Literal
 
 import numpy as np
 import pandas as pd
@@ -20,6 +22,8 @@ class DatasetConfig:
     normalize_type: str = "fixed"  # fixed | per_image
     mean: float = 0.0
     std: float = 1.0
+    split: Literal["train", "val", "test"] = "train"
+    augment: Callable[[Image.Image], Image.Image] | None = None
 
 
 class MammoGradesDataset(Dataset):
@@ -78,6 +82,10 @@ class MammoGradesDataset(Dataset):
         grade = int(row["label"])  # 1..5
 
         img = self._load_image(filename)
+
+        if self.cfg.split == "train" and self.cfg.augment is not None:
+            img = self.cfg.augment(img)
+
         x = self._to_tensor(img)
         x = self._normalize(x)
 
