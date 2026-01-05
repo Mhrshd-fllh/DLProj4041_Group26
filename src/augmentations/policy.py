@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-import random
 from typing import Any
 
 from torchvision import transforms
-from torchvision.transforms import functional as F
+
+from src.models.factory import RandomGamma
 
 
 def build_train_augment(cfg: dict[str, Any]) -> transforms.Compose:
@@ -47,12 +47,7 @@ def build_train_augment(cfg: dict[str, Any]) -> transforms.Compose:
     gamma_min = float(augment.get("gamma_min", 0.95))
     gamma_max = float(augment.get("gamma_max", 1.05))
     if gamma_enabled and gamma_p > 0 and gamma_max >= gamma_min:
-
-        def _gamma(img):
-            g = random.uniform(gamma_min, gamma_max)
-            return F.adjust_gamma(img, gamma=g)
-
-        ops.append(transforms.RandomApply([transforms.Lambda(_gamma)], p=gamma_p))
+        ops.append(transforms.RandomApply([RandomGamma(gamma_min, gamma_max)], p=gamma_p))
 
     return transforms.Compose(ops)
 
